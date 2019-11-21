@@ -22,7 +22,9 @@ exports.up = function(knex) {
         .integer("species_id")
         .unsigned()
         .notNullable()
-        .references("species.id");
+        .references("species.id")
+        .onDelete("CASCADE")
+        .onUpdate("CASCADE");
       // .references('id')
       // .inTable('species')
     })
@@ -31,21 +33,26 @@ exports.up = function(knex) {
         .integer("zoo_id")
         .unsigned()
         .notNullable()
-        .references("zoo.id");
+        .references("zoo.id")
+        .onDelete("CASCADE")
+        .onUpdate("CASCADE");
 
       tbl
         .integer("animal_id")
         .unsigned()
         .notNullable()
-        .references("animals.id");
+        .references("animals.id")
+        .onDelete("CASCADE")
+        .onUpdate("CASCADE");
 
       tbl.primary(["zoo_id", "animal_id"]);
     });
 };
 
 exports.down = function(knex) {
-  knex.schema.dropTableIfExists("zoo_animals"),
-    dropTableIfExists("animals")
-      .dropTableIfExists("species")
-      .dropTableIfExists("zoos");
+  knex.schema
+    .dropTableIfExists("zoo_animals")
+    .dropTableIfExists("animals")
+    .dropTableIfExists("species")
+    .dropTableIfExists("zoos");
 };
