@@ -34,13 +34,18 @@ exports.up = function(knex) {
         .references("zoo.id");
 
       tbl
-        .intger("animal_id")
+        .integer("animal_id")
         .unsigned()
         .notNullable()
-        .reference("animals.id");
+        .references("animals.id");
 
       tbl.primary(["zoo_id", "animal_id"]);
     });
 };
 
-exports.down = function(knex) {};
+exports.down = function(knex) {
+  knex.schema.dropTableIfExists("zoo_animals"),
+    dropTableIfExists("animals")
+      .dropTableIfExists("species")
+      .dropTableIfExists("zoos");
+};
